@@ -30,6 +30,7 @@
 .NOTES
     AUTHOR - Phil Pritchett
     DATE WRITTEN - 10/23/2018
+    TWITTER: @PhilPritchett
     CREDITS
         David Segura - 'OSBuilder' PS Module developer. ('@SeguraOSD' on Twitter) (URL: www.osdeploy.com)
         David Stein - Assistance with browse functions and some sanity checks when crap wouldn't work for me. ('@skatterbrainzz' on Twitter) (URL: skatterbrainz.wordpress.com)
