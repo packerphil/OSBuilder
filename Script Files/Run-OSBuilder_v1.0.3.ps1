@@ -28,8 +28,9 @@
 	.\Run-OSBuilder.ps1 -Customize -EnableNETFX -BuildVer 1803 -OSArch x64
     Runs OSBuilder for Windows 10 Enterprise, Build 1803, 64bit, runs customizations creation with NetFX3. (Same as EXAMPLE 2)
 .NOTES
-    AUTHOR - Phil Pritchett (Catapult Systems)
+    AUTHOR - Phil Pritchett
     DATE WRITTEN - 10/23/2018
+    TWITTER: @PhilPritchett
     CREDITS
         David Segura - 'OSBuilder' PS Module developer. ('@SeguraOSD' on Twitter) (URL: www.osdeploy.com)
         David Stein - Assistance with browse functions and some sanity checks when crap wouldn't work for me. ('@skatterbrainzz' on Twitter) (URL: skatterbrainz.wordpress.com)
