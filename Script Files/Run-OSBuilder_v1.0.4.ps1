@@ -27,6 +27,9 @@
 .EXAMPLE 4
 	.\Run-OSBuilder.ps1 -Customize -EnableNETFX -BuildVer 1803 -OSArch x64
     Runs OSBuilder for Windows 10 Enterprise, Build 1803, 64bit, runs customizations creation with NetFX3. (Same as EXAMPLE 2)
+.EXAMPLE 5
+	.\Run-OSBuilder.ps1 -Customize -BuildVer 1803 -OSArch x64 -ImageBuildName Company-Win10Ent-1803 -SiteCode LAB
+    Runs OSBuilder for Windows 10 Enterprise, Build 1803, 64bit, runs customizations creation without NetFX3, names the build "Company-Win10Ent-1803", sets SCCM Site Code to "LAB"
 .NOTES
     AUTHOR - Phil Pritchett
     DATE WRITTEN - 10/23/2018
@@ -42,6 +45,7 @@
         1.0.3-Beta - PHP - 10/29/2018 - Added Browse for ISO, Browse for work folder, browse for ADKSetup if it isn't installed,
                                         incorporated filters for OSMedia Import from OSBUilder Module.
         1.0.3 - PHP - 10/29/2018 - Changed from 'beta' to full stable version after testing.
+        1.0.4 - PHP - 10/30/2018 - Added setting for SCCM Site Code to name the new ISO file, added Save dialog for saving the ISO to network or local folder.
     TO DO -
         Add functions for:
             Add Logging
