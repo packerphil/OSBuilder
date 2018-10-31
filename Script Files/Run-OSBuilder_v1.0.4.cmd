@@ -1,0 +1,1 @@
+powershell.exe -ExecutionPolicy Bypass -Command ".\Run-OSBuilder_v1.0.3.ps1 -Customize -BuildVer 1803 -OSArch x64 -ImageBuildName SCLAB-Win10Ent-1803 -SiteCode LAB"
