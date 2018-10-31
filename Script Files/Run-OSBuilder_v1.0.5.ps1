@@ -127,7 +127,7 @@ Function Get-ISOPath
 }
 
 # Function to check if Windows 10 ADK is installed, install if not already
-Function Get-InstalledApps
+Function Get-ADKInstalled
 {
 	if ([IntPtr]::Size -eq 4)
 	{
@@ -157,23 +157,12 @@ Function Get-ADKSetup
 {
 	[System.Reflection.Assembly]::LoadWithPartialName("System.windows.forms") | Out-Null
 	$OpenFileDialog = New-Object System.Windows.Forms.OpenFileDialog
+    $OpenFileDialog.Title = "Select 'adksteup.exe'"
 	$OpenFileDialog.initialDirectory = "C:\"
 	$OpenFileDialog.filter = "ADK Setup exe (adksetup.exe)| adksetup.exe"
-	$Loop = $true
-	While ($Loop)
-	{
-		If ($OpenFileDialog.ShowDialog() -eq "OPEN")
-		{
-			$Loop = $false
-			#$OpenFileDialog.ShowDialog() | Out-Null
-			$Path = $OpenFileDialog.FileName
-		}
-		Else
-		{
-			$Loop = $false
-		}
-	}
-	return $Path
+	$OpenFileDialog.ShowDialog() | Out-Null
+	$ADKSetupPath = $OpenFileDialog.FileName
+	return $ADKSetupPath
 }
 
 # Function to browse for 'OSBuilder' working directory
@@ -282,19 +271,20 @@ Write-Host "Getting available cmdlets for '$($ModuleName)'..." -ForegroundColor 
 Get-Command -Module OSBuilder
 
 # Check if the Windows ADK is installed. Install it if it is not.
-If (-not (Get-InstalledApps))
+$ADKPresent = Get-ADKInstalled
+If (-not ($ADKPresent))
 {
 	Write-Host " "
 	Write-Host "      Windows 10 Assessment and Deployment Kit is NOT installed!!" -BackgroundColor White -ForegroundColor Red
 	Write-Host "          Windows 10 Assessment and Deployment Kit will be installed. Please wait..." -ForegroundColor Yellow
-	If (-not(Get-ADKSetup))
+	$ADKSetup = Get-ADKSetup
+    If (-not($ADKSetup))
 	{
 		Write-Host "   'adksetup.exe' NOT selected!" -ForegroundColor Red
 		Break
 	}
 	Else
 	{
-		$ADKSetup = Get-ADKSetup
 		$ArgList = @(
 			"/features",
 			"OptionId.DeploymentTools",
@@ -312,7 +302,7 @@ If (-not (Get-InstalledApps))
 }
 
 # Check if Windows ADK is installed, report if it is.
-If (Get-InstalledApps)
+If ($ADKPresent)
 {
 	Write-Host " "
 	Write-Host "   Windows 10 Assessment and Deployment Kit is installed..." -ForegroundColor Green
