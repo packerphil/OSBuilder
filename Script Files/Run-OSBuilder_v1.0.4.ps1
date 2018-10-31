@@ -3,6 +3,7 @@
 <#
 .DESCRIPTION
 	Script used to run OSBuilder module (from David Segura) commands to build Windows 10 installation media that is patched and has only the apps and features desired.
+    Only works with Windows 10 Enterprise at this time.
 .PARAMETER ADKSetup
 	(Optional) This is the path to the Windows 10 ADK Setup Executable. Default = "C:\Downloads\ADK\adksetup.exe"
 .PARAMETER WorkFolder
