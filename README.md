@@ -7,3 +7,4 @@
   --------------------------------------------------------------<br/><br/>
   <b>Script Files:</b><br/>
   <i>Run-OSBuilder_v1.0.3.ps1</i> - Created by Phil Pritchett<br/>
+  <i>Run-OSBuilder_v1.0.4.ps1</i> - Created by Phil Pritchett<br/>
