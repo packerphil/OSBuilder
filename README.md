@@ -17,9 +17,10 @@
 <b>DESCRIPTION</b><br/>
 Wrapper script used to run OSBuilder module v10.10.26.0 (from David Segura) commands to<br/>
 build Windows 10 installation media that is patched and has only the apps and features desired.<br/><br/>
-<b><i>NOTE:</b> Only works with Windows 10 Enterprise at this time.</i><br/>
-  <br/>
-  <br/>
+<b><i>NOTE:</b> Only works with Windows 10 Enterprise at this time.</i><br/><br/>
+
+--------------------------------------------------------------
+<br/>
   <b>REQUIREMENTS:</b><br/>
   1. Windows 10 ISO from Microsoft MVLS or MSDN<br/>
   2. Windows ADK 1803 Downloaded for installation, or already installed to default location.<br/>
