@@ -7,11 +7,12 @@
   
   --------------------------------------------------------------
   <br/>
-  <b>Script Files:</b><br/>
-  <i>Run-OSBuilder_v1.0.3.ps1</i> - Created by Phil Pritchett<br/>
-  <i>Run-OSBuilder_v1.0.4.ps1</i> - Created by Phil Pritchett<br/>
+  <b>Current Stable Script File:</b><br/>
   <i>Run-OSBuilder_v1.0.5.ps1</i> - Created by Phil Pritchett<br/>
   <br/>
+  <b>Previous Version Script Files:</b><br/>
+  <i>Run-OSBuilder_v1.0.3.ps1</i> - Created by Phil Pritchett<br/>
+  <i>Run-OSBuilder_v1.0.4.ps1</i> - Created by Phil Pritchett<br/>
   <br/>
   Script used to run OSBuilder module (from David Segura) commands to build Windows 10 installation<br/>
   media that is patched and has only the apps and features desired.<br/>
