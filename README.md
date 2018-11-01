@@ -8,6 +8,7 @@
   <b>Script Files:</b><br/>
   <i>Run-OSBuilder_v1.0.3.ps1</i> - Created by Phil Pritchett<br/>
   <i>Run-OSBuilder_v1.0.4.ps1</i> - Created by Phil Pritchett<br/>
+  <i>Run-OSBuilder_v1.0.5.ps1</i> - Created by Phil Pritchett<br/>
   <br/>
   <br/>
   Script used to run OSBuilder module (from David Segura) commands to build Windows 10 installation<br/>
