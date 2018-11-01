@@ -1,4 +1,8 @@
-Scripts are created for use with the OSBuilder Module.<br/>
+Scripts are created for use with the OSBuilder Module.<br/><br/>
+<b>DESCRIPTION:</b><br/>
+Wrapper script used to run OSBuilder module v10.10.26.0 (from David Segura) commands to<br/>
+build Windows 10 installation media that is patched and has only the apps and features desired.<br/><br/>
+<b><i>NOTE:</b> Only works with Windows 10 Enterprise at this time.</i><br/>
 <br/>
 <b>EXAMPLE 1 -</b> Runs OSBuilder for Windows 10 Enterprise, Build 1803, 64bit, runs customizations creation without NetFX3, names the build and the resulting ISO "Company-Win10Ent-1803"<br/>
 <i>.\Run-OSBuilder_v1.0.3.ps1 -Customize -BuildVer 1803 -OSArch x64 -ImageBuildName Company-Win10Ent-1803</i><br/><br/>
