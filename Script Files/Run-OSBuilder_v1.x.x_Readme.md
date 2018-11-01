@@ -9,10 +9,11 @@ build Windows 10 installation media that is patched and has only the apps and fe
 <br/>
 
 <b>PARAMETER -</b> <i>EnableNETFX</i><br/>
-(OPTIONAL) - Switch parameter that will run the 'OSBuilder' command 'New-OSBuildTask' and append the 'TaskName', 'BuildName', 'EnableNetFX3' pamaters to it.<br/>
-<b>PARAMETER -</b> <i>BuildVer</i><br/>
+(OPTIONAL) - Switch parameter that will run the 'OSBuilder' command 'New-OSBuildTask' and append the 'TaskName', 'BuildName', 'EnableNetFX3' parameters to it.<br/>
 
+<b>PARAMETER -</b> <i>BuildVer</i><br/>
 (OPTIONAL) - Microsoft Windows 10 Build Number (1511, 1607, 1703, 1709, 1803, or 1809) - Default is '1803'<br/>
+
 <b>PARAMETER -</b> <i>Customize</i><br/>
 
 (OPTIONAL) - Switch parameter that will run the 'OSBuilder' command 'New-OSBuildTask' and append the 'TaskName', 'BuildName', 'RemoveAppxProvisionedPackage', 'EnableWindowsOptionalFeature', 'DisableWindowsOptionalFeature', 'RemoveWindowsPackage', and 'RemoveWindowsCapability' pamaters to it.<br/>
