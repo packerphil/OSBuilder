@@ -15,10 +15,10 @@ build Windows 10 installation media that is patched and has only the apps and fe
 (OPTIONAL) - Microsoft Windows 10 Build Number (1511, 1607, 1703, 1709, 1803, or 1809) - Default is '1803'<br/>
 
 <b>PARAMETER -</b> <i>Customize</i><br/>
-(OPTIONAL) - Switch parameter that will run the 'OSBuilder' command 'New-OSBuildTask' and append the 'TaskName', 'BuildName', 'RemoveAppxProvisionedPackage', 'EnableWindowsOptionalFeature', 'DisableWindowsOptionalFeature', 'RemoveWindowsPackage', and 'RemoveWindowsCapability' pamaters to it.<br/>
+(OPTIONAL) - Switch parameter that will run the 'OSBuilder' command 'New-OSBuildTask' and append the 'TaskName', 'BuildName', 'RemoveAppxProvisionedPackage', 'EnableWindowsOptionalFeature', 'DisableWindowsOptionalFeature', 'RemoveWindowsPackage', and 'RemoveWindowsCapability' parameters to it.<br/>
 
 <b>PARAMETER -</b> <i>CustomizeFX</i><br/>
-(OPTIONAL) - Switch parameter that will run the 'OSBuilder' command 'New-OSBuildTask' and append the 'TaskName', 'BuildName', 'RemoveAppxProvisionedPackage', 'EnableWindowsOptionalFeature', 'DisableWindowsOptionalFeature', 'RemoveWindowsPackage', 'RemoveWindowsCapability', and 'EnableNetFX3' pamaters to it.<br/>
+(OPTIONAL) - Switch parameter that will run the 'OSBuilder' command 'New-OSBuildTask' and append the 'TaskName', 'BuildName', 'RemoveAppxProvisionedPackage', 'EnableWindowsOptionalFeature', 'DisableWindowsOptionalFeature', 'RemoveWindowsPackage', 'RemoveWindowsCapability', and 'EnableNetFX3' parameters to it.<br/>
 
 <b>PARAMETER -</b> <i>SiteCode</i><br/>
 (OPTIONAL) - Specifies the Configuration Manager Site Code<br/>
