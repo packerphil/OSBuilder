@@ -85,21 +85,29 @@
 param
 (
 	[Parameter(Mandatory = $false)]
-	[switch]$Customize,
+	[switch]
+	$Customize,
 	[Parameter(Mandatory = $false)]
-	[switch]$CustomizeFX,
+	[switch]
+	$CustomizeFX,
 	[Parameter(Mandatory = $false)]
-	[switch]$EnableNETFX,
+	[switch]
+	$EnableNETFX,
 	[Parameter(Mandatory = $false)]
-	[string]$BuildVer = "1803",
+	[string]
+	$BuildVer = "1803",
 	[Parameter(Mandatory = $false)]
-	[string]$OSArch = "x64",
+	[string]
+	$OSArch = "x64",
 	[Parameter(Mandatory = $false)]
-	[string]$SiteCode,
+	[string]
+	$SiteCode,
 	[Parameter(Mandatory = $false)]
-	[string]$ImageBuildName = "Win10-x64-1803",
+	[string]
+	$ImageBuildName = "Win10-x64-1803",
 	[Parameter(Mandatory = $false)]
-	[switch]$SaveNewISO
+	[switch]
+	$SaveNewISO
 )
 
 # **************************************************************
@@ -113,8 +121,8 @@ Function Get-ISOPath
 	$OpenFileDialog.Title = "Find and Select Windows Installation ISO"
 	$OpenFileDialog.initialDirectory = "C:\"
 	$OpenFileDialog.filter = "Disc Image File (*.iso)| *.iso"
-	$OpenFileDialog.ShowDialog() | Out-Null
-	$Path = $OpenFileDialog.FileName
+    $OpenFileDialog.ShowDialog() | Out-Null
+    $Path = $OpenFileDialog.FileName
 	return $Path
 }
 
@@ -149,7 +157,7 @@ Function Get-ADKSetup
 {
 	[System.Reflection.Assembly]::LoadWithPartialName("System.windows.forms") | Out-Null
 	$OpenFileDialog = New-Object System.Windows.Forms.OpenFileDialog
-	$OpenFileDialog.Title = "Select 'adksteup.exe'"
+    $OpenFileDialog.Title = "Select 'adksteup.exe'"
 	$OpenFileDialog.initialDirectory = "C:\"
 	$OpenFileDialog.filter = "ADK Setup exe (adksetup.exe)| adksetup.exe"
 	$OpenFileDialog.ShowDialog() | Out-Null
@@ -193,8 +201,20 @@ Function Set-BuildISOPath
 	$SaveFileDialog.initialDirectory = "C:\"
 	$SaveFileDialog.FileName = "$($NewName)"
 	$SaveFileDialog.filter = "Disc Image File (*.iso)| *.iso"
-	$SaveFileDialog.ShowDialog() | Out-Null
-	$SavePath = $SaveFileDialog.FileName
+	#$SaveFileDialog.ShowDialog() | Out-Null
+	$Loop = $true
+	While ($Loop)
+	{
+		If ($SaveFileDialog.ShowDialog() -eq "SAVE")
+		{
+			$Loop = $false
+			$SavePath = $SaveFileDialog.FileName
+		}
+		Else
+		{
+			$Loop = $false
+		}
+	}
 	$SaveFileDialog.Dispose()
 	return $SavePath
 }
@@ -204,14 +224,14 @@ Function Set-BuildISOPath
 
 # Get and Mount Windows 10 ISO from Microsoft
 $ISOPath = Get-ISOPath
-If (-not ($ISOPath))
+If (-not($ISOPath))
 {
 	Write-Host "   ERROR - Windows installation ISO was NOT selected!!" -ForegroundColor Red
 	Break
 }
 Else
 {
-	Mount-DiskImage -ImagePath $ISOPath -Verbose -ErrorAction Stop
+    Mount-DiskImage -ImagePath $ISOPath -Verbose -ErrorAction Stop
 }
 
 # Verify NuGet Provider version is 2.8.5.201 or greater
@@ -258,14 +278,13 @@ If (-not ($ADKPresent))
 	Write-Host "      Windows 10 Assessment and Deployment Kit is NOT installed!!" -BackgroundColor White -ForegroundColor Red
 	Write-Host "          Windows 10 Assessment and Deployment Kit will be installed. Please wait..." -ForegroundColor Yellow
 	$ADKSetup = Get-ADKSetup
-	If (-not ($ADKSetup))
+    If (-not($ADKSetup))
 	{
 		Write-Host "   'adksetup.exe' NOT selected!" -ForegroundColor Red
 		Break
 	}
 	Else
 	{
-		#$ADKSetup = Get-ADKSetup
 		$ArgList = @(
 			"/features",
 			"OptionId.DeploymentTools",
@@ -354,20 +373,14 @@ If ($SaveNewISO)
 {
 	$BuildDate = Get-Date -Format "MM.dd.HHmm"
 	$NewISO = Get-ChildItem -Path $WorkFolder -Recurse | ? { $_.Name -like "*.iso" }
-	If ($SiteCode)
-	{
-		$NewName = "$SiteCode - Win10Ent $OSArch $BuildVer - OSBuilder - v$BuildDate.iso"
-	}
-	If (-not($SiteCode))
-	{
-		$NewName = "Win10Ent $OSArch $BuildVer - OSBuilder - v$BuildDate.iso"
-	}
+	$NewName = "$SiteCode - Win10 Ent $OSArch $BuildVer OSBuilder - v$BuildDate.iso"
 	$Destination = Set-BuildISOPath
 	If (-not ($Destination))
 	{
 		Write-Host "ERROR: No save location or filename specified." -ForegroundColor Red
 		Break
 	}
+	
 	$CopyISO = Copy-Item -Path $NewISO.FullName -Destination $Destination -Force # -Verbose
 	If (Get-Item -Path "$($Destination)")
 	{
