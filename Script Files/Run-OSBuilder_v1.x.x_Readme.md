@@ -32,30 +32,25 @@ build Windows 10 installation media that is patched and has only the apps and fe
 <b>PARAMETER -</b> <i>SaveNewISO</i><br/>
 (OPTIONAL) - Switch parameter, specifies to save the new ISO to a specific folder through dialog.<br/><br/>
 
-EXAMPLE 1
+----------------------------------------------------
+<br/>
 
-Runs OSBuilder for Windows 10 Enterprise, Build 1803, 64bit, runs customizations creation without NetFX3, names the build "Company-Win10Ent-1803"
-.\Run-OSBuilder.ps1 -Customize -BuildVer 1803 -OSArch x64 -ImageBuildName Company-Win10Ent-1803
+<b>EXAMPLE 1</b><br/>
+Runs OSBuilder for Windows 10 Enterprise, Build 1803, 64bit, runs customizations creation without NetFX3, names the build "Company-Win10Ent-1803"<br/>
+<i>.\Run-OSBuilder.ps1 -Customize -BuildVer 1803 -OSArch x64 -ImageBuildName Company-Win10Ent-1803</i><br/><br/>
 
-EXAMPLE 2
+<b>EXAMPLE 2</b><br/>
+Runs OSBuilder for Windows 10 Enterprise, Build 1803, 64bit, runs customizations creation with NetFX3.<br/>
+<i>.\Run-OSBuilder.ps1 -CustomizeFX -BuildVer 1803 -OSArch x64</i><br/><br/>
 
-Runs OSBuilder for Windows 10 Enterprise, Build 1803, 64bit, runs customizations creation with NetFX3.
+<b>EXAMPLE 3</b><br/>
+Runs OSBuilder for Windows 10 Enterprise, Build 1803, 64bit, enables NetFX3, opens the save custom ISO dialog.<br/>
+<i>.\Run-OSBuilder.ps1 -EnableNETFX -BuildVer 1803 -OSArch x64 -SaveNewISO</i><br/><br/>
 
-.\Run-OSBuilder.ps1 -CustomizeFX -BuildVer 1803 -OSArch x64
+<b>EXAMPLE 4</b><br/>
+Runs OSBuilder for Windows 10 Enterprise, Build 1803, 64bit, runs customizations creation with NetFX3. (Same as EXAMPLE 2)<br/>
+<i>.\Run-OSBuilder.ps1 -Customize -EnableNETFX -BuildVer 1803 -OSArch x64</i><br/><br/>
 
-EXAMPLE 3
-
-Runs OSBuilder for Windows 10 Enterprise, Build 1803, 64bit, enables NetFX3, opens the save custom ISO dialog
-.
-.\Run-OSBuilder.ps1 -EnableNETFX -BuildVer 1803 -OSArch x64 -SaveNewISO
-
-EXAMPLE 4
-Runs OSBuilder for Windows 10 Enterprise, Build 1803, 64bit, runs customizations creation with NetFX3. (Same as EXAMPLE 2)
-
-.\Run-OSBuilder.ps1 -Customize -EnableNETFX -BuildVer 1803 -OSArch x64
-
-EXAMPLE 5
-
-Runs OSBuilder for Windows 10 Enterprise, Build 1803, 64bit, runs customizations creation without NetFX3, names the build "Company-Win10Ent-1803", sets SCCM Site Code to "LAB"
-
-.\Run-OSBuilder.ps1 -Customize -BuildVer 1803 -OSArch x64 -ImageBuildName Company-Win10Ent-1803 -SiteCode LAB
+<b>EXAMPLE 5</b><br/>
+Runs OSBuilder for Windows 10 Enterprise, Build 1803, 64bit, runs customizations creation without NetFX3, names the build "Company-Win10Ent-1803", sets SCCM Site Code to "LAB"<br/>
+<i>.\Run-OSBuilder.ps1 -Customize -BuildVer 1803 -OSArch x64 -ImageBuildName Company-Win10Ent-1803 -SiteCode LAB</i><br/><br/>
