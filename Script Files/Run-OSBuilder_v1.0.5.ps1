@@ -2,7 +2,7 @@
 #requires -RunAsAdministrator
 <#
 	.DESCRIPTION
-		Script used to run OSBuilder module (from David Segura) commands to build Windows 10 installation media that is patched and has only the apps and features desired.
+		Wrapper script used to run OSBuilder module v10.10.26.0 (from David Segura) commands to build Windows 10 installation media that is patched and has only the apps and features desired.
 		Only works with Windows 10 Enterprise at this time.
 	
 	.PARAMETER EnableNETFX
@@ -356,11 +356,11 @@ If ($SaveNewISO)
 	$NewISO = Get-ChildItem -Path $WorkFolder -Recurse | ? { $_.Name -like "*.iso" }
 	If ($SiteCode)
 	{
-		$NewName = "$SiteCode - Win10Ent $OSArch $BuildVer - OSBuilder - v$BuildDate.iso"
+		$NewName = "$SiteCode - Win10 Ent $OSArch $BuildVer OSBuilder - v$BuildDate.iso"
 	}
-	If (-not($SiteCode))
+	Else
 	{
-		$NewName = "Win10Ent $OSArch $BuildVer - OSBuilder - v$BuildDate.iso"
+		$NewName = "Win10 Ent $OSArch $BuildVer OSBuilder - v$BuildDate.iso"
 	}
 	$Destination = Set-BuildISOPath
 	If (-not ($Destination))
