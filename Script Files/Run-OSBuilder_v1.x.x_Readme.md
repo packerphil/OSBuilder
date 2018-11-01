@@ -15,30 +15,23 @@ build Windows 10 installation media that is patched and has only the apps and fe
 (OPTIONAL) - Microsoft Windows 10 Build Number (1511, 1607, 1703, 1709, 1803, or 1809) - Default is '1803'<br/>
 
 <b>PARAMETER -</b> <i>Customize</i><br/>
-
 (OPTIONAL) - Switch parameter that will run the 'OSBuilder' command 'New-OSBuildTask' and append the 'TaskName', 'BuildName', 'RemoveAppxProvisionedPackage', 'EnableWindowsOptionalFeature', 'DisableWindowsOptionalFeature', 'RemoveWindowsPackage', and 'RemoveWindowsCapability' pamaters to it.<br/>
-<b>PARAMETER -</b> <i>CustomizeFX
-</i><br/>
 
+<b>PARAMETER -</b> <i>CustomizeFX</i><br/>
 (OPTIONAL) - Switch parameter that will run the 'OSBuilder' command 'New-OSBuildTask' and append the 'TaskName', 'BuildName', 'RemoveAppxProvisionedPackage', 'EnableWindowsOptionalFeature', 'DisableWindowsOptionalFeature', 'RemoveWindowsPackage', 'RemoveWindowsCapability', and 'EnableNetFX3' pamaters to it.<br/>
+
 <b>PARAMETER -</b> <i>SiteCode</i><br/>
+(OPTIONAL) - Specifies the Configuration Manager Site Code<br/>
 
-(OPTIONAL) - Specifies the Configuration Manager Site Code
-<br/>
-<b>PARAMETER -</b> <i>OSArch
-</i><br/>
-
+<b>PARAMETER -</b> <i>OSArch</i><br/>
 (OPTIONAL) - Specifies the processor architecture of the OS Media you are building. Default is 'x64'<br/>
-<b>PARAMETER -</b> <i>ImageBuildName
-</i><br/>
 
-(OPTIONAL) - Specifies the Build Name of the OS Media you are building. Default is 'Win10-x64-1803'
-<br/>
-<b>PARAMETER -</b> <i>SaveNewISO
-</i><br/>
+<b>PARAMETER -</b> <i>ImageBuildName</i><br/>
+(OPTIONAL) - Specifies the Build Name of the OS Media you are building. Default is 'Win10-x64-1803'<br/>
 
-(OPTIONAL) - Switch parameter, specifies to save the new ISO to a specific folder through dialog.
-<br/><br/>
+<b>PARAMETER -</b> <i>SaveNewISO</i><br/>
+(OPTIONAL) - Switch parameter, specifies to save the new ISO to a specific folder through dialog.<br/><br/>
+
 EXAMPLE 1
 
 Runs OSBuilder for Windows 10 Enterprise, Build 1803, 64bit, runs customizations creation without NetFX3, names the build "Company-Win10Ent-1803"
