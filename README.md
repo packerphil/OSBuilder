@@ -16,8 +16,7 @@
   <br/>
 <b>DESCRIPTION</b><br/>
 Wrapper script used to run OSBuilder module v10.10.26.0 (from David Segura) commands to<br/>
-build Windows 10 installation media that is patched and has only the apps and features desired.<br/>
-
+build Windows 10 installation media that is patched and has only the apps and features desired.<br/><br/>
 <b><i>NOTE:</b> Only works with Windows 10 Enterprise at this time.</i><br/>
   <br/>
   <br/>
