@@ -21,7 +21,7 @@
 		(OPTIONAL) - Specifies the Configuration Manager Site Code
 	
 	.PARAMETER OSArch
-		(OPTIONAL) - Specifies the processor architecture of the OS Media you are building. Default is 'x64'
+		(OPTIONAL) - Specifies the processor architecture of the OS Media you are building. Default is 'x64'. Valid values are 'x64' and 'x86'
 	
 	.PARAMETER ImageBuildName
 		(OPTIONAL) - Specifies the Build Name of the OS Media you are building. Default is 'Win10-x64-1803'
@@ -71,7 +71,7 @@
 		Add Logging
 		Add Error Handling
 		Inspect OSBuilder functions to add more automation
-		Add Log File Gathering		
+		Add Log File Gathering
 		Mount the new ISO
 		Create the Package Source folder
 		Copy the contents of the ISO to the Package Source folder
@@ -85,21 +85,31 @@
 param
 (
 	[Parameter(Mandatory = $false)]
-	[switch]$Customize,
+	[switch]
+	$Customize,
 	[Parameter(Mandatory = $false)]
-	[switch]$CustomizeFX,
+	[switch]
+	$CustomizeFX,
 	[Parameter(Mandatory = $false)]
-	[switch]$EnableNETFX,
+	[switch]
+	$EnableNETFX,
 	[Parameter(Mandatory = $false)]
-	[string]$BuildVer = "1803",
+	[ValidateSet('1507', '1511', '1607', '1703', '1709', '1803', '1809')]
+	[string]
+	$BuildVer = "1803",
 	[Parameter(Mandatory = $false)]
-	[string]$OSArch = "x64",
+	[ValidateSet('x86', 'x64')]
+	[string]
+	$OSArch = "x64",
 	[Parameter(Mandatory = $false)]
-	[string]$SiteCode,
+	[string]
+	$SiteCode,
 	[Parameter(Mandatory = $false)]
-	[string]$ImageBuildName = "Win10-x64-1803",
+	[string]
+	$ImageBuildName = "Win10-x64-1803",
 	[Parameter(Mandatory = $false)]
-	[switch]$SaveNewISO
+	[switch]
+	$SaveNewISO
 )
 
 # **************************************************************
