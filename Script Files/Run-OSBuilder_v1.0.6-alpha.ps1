@@ -5,23 +5,24 @@
 		Wrapper script used to run OSBuilder module v10.10.26.0 (from David Segura) commands to build Windows 10 installation media that is patched and has only the apps and features desired.
 		Only works with Windows 10 Enterprise at this time.
 	
-	.PARAMETER EnableNETFX
-		(OPTIONAL) - Switch parameter that will run the 'OSBuilder' command 'New-OSBuildTask' and append the 'TaskName', 'BuildName', 'EnableNetFX3' pamaters to it.
-	
 	.PARAMETER BuildVer
-		(OPTIONAL) - Microsoft Windows 10 Build Number (1511, 1607, 1703, 1709, 1803, or 1809) - Default is '1803'
-	
-	.PARAMETER Customize
-		(OPTIONAL) - Switch parameter that will run the 'OSBuilder' command 'New-OSBuildTask' and append the 'TaskName', 'BuildName', 'RemoveAppxProvisionedPackage', 'EnableWindowsOptionalFeature', 'DisableWindowsOptionalFeature', 'RemoveWindowsPackage', and 'RemoveWindowsCapability' pamaters to it.
-	
-	.PARAMETER CustomizeFX
-		(OPTIONAL) - Switch parameter that will run the 'OSBuilder' command 'New-OSBuildTask' and append the 'TaskName', 'BuildName', 'RemoveAppxProvisionedPackage', 'EnableWindowsOptionalFeature', 'DisableWindowsOptionalFeature', 'RemoveWindowsPackage', 'RemoveWindowsCapability', and 'EnableNetFX3' pamaters to it.
+		(REQUIRED) - Microsoft Windows 10 Build Number
+		Valid values are:
+		'1511'
+		'1607'
+		'1703'
+		'1709'
+		'1803'
+		'1809'
 	
 	.PARAMETER SiteCode
 		(OPTIONAL) - Specifies the Configuration Manager Site Code
 	
 	.PARAMETER OSArch
-		(OPTIONAL) - Specifies the processor architecture of the OS Media you are building. Default is 'x64'. Valid values are 'x64' and 'x86'
+		(REQUIRED) - Specifies the processor architecture of the OS Media you are building.
+		Valid values are
+		'x64'
+		'x86'
 	
 	.PARAMETER ImageBuildName
 		(OPTIONAL) - Specifies the Build Name of the OS Media you are building. Default is 'Win10-x64-1803'
@@ -29,25 +30,26 @@
 	.PARAMETER SaveNewISO
 		(OPTIONAL) - Specifies to save the new ISO to a specific folder.
 	
+	.PARAMETER CustomOptions
+		(OPTIONAL) - If specified, a new build task will be created with the options chosen.
+		Values are comma separated (EXAMPLE - 'RemAppx,AddNetFX3')
+		Minimum options = 1
+		Maximum options = 6
+		Valid values are:
+		'RemAppx' = RemoveAppxProvisionedPackage
+		'AddWinOpt' = EnableWindowsOptionalFeature
+		'RemWinOpt' = DisableWindowsOptionalFeature
+		'RemWinPkg' = RemoveWindowsPackage
+		'RemWinCap' = RemoveWindowsCapability
+		'AddNetFX3' = EnableNetFX3
+	
 	.EXAMPLE 1
-		Runs OSBuilder for Windows 10 Enterprise, Build 1803, 64bit, runs customizations creation without NetFX3, names the build "Company-Win10Ent-1803"
-		.\Run-OSBuilder.ps1 -Customize -BuildVer 1803 -OSArch x64 -ImageBuildName Company-Win10Ent-1803
+		Runs OSBuilder for Windows 10 Enterprise, Build 1803, 64bit, adds customization job for enabling .NET35 and removal of Appx Packages, specified SCCM Site Code 'LAB'
+		.\Run-OSBuilder.ps1 -CustomOptions AddNetFX3,RemAppx -BuildVer 1803 -OSArch x64 -SiteCode LAB
 	
 	.EXAMPLE 2
-		Runs OSBuilder for Windows 10 Enterprise, Build 1803, 64bit, runs customizations creation with NetFX3.
-		.\Run-OSBuilder.ps1 -CustomizeFX -BuildVer 1803 -OSArch x64
-	
-	.EXAMPLE 3
-		Runs OSBuilder for Windows 10 Enterprise, Build 1803, 64bit, enables NetFX3, opens the save custom ISO dialog
-		.\Run-OSBuilder.ps1 -EnableNETFX -BuildVer 1803 -OSArch x64 -SaveNewISO
-	
-	.EXAMPLE 4
-		Runs OSBuilder for Windows 10 Enterprise, Build 1803, 64bit, runs customizations creation with NetFX3. (Same as EXAMPLE 2)
-		.\Run-OSBuilder.ps1 -Customize -EnableNETFX -BuildVer 1803 -OSArch x64
-	
-	.EXAMPLE 5
-		Runs OSBuilder for Windows 10 Enterprise, Build 1803, 64bit, runs customizations creation without NetFX3, names the build "Company-Win10Ent-1803", sets SCCM Site Code to "LAB"
-		.\Run-OSBuilder.ps1 -Customize -BuildVer 1803 -OSArch x64 -ImageBuildName Company-Win10Ent-1803 -SiteCode LAB
+		Runs OSBuilder for Windows 10 Enterprise, Build 1709, 64bit, names the build 'LAB-WIn10Ent-x64-1709'
+		.\Run-OSBuilder.ps1 -BuildVer 1709 -OSArch x64 -ImageBuildName "LAB-WIn10Ent-x64-1709"
 	
 	.NOTES
 		AUTHOR - Phil Pritchett
@@ -66,6 +68,7 @@
 		1.0.3 - PHP - 10/29/2018 - Changed from 'beta' to full stable version after testing.
 		1.0.4 - PHP - 10/30/2018 - Added setting for SCCM Site Code to name the new ISO file, added Save dialog for saving the ISO to network or local folder.
 		1.0.5 - PHP - 10/31/2018 - Brought all functions to top of script, formatted script, updated parameter descriptions/ defaults, added script breaks if folder or file browse dialogs are cancelled
+		1.0.6 - PHP - 11/05/2018 - Consolidated customization variables into a single array parameter/variable('CustomOptions) with validation and a function call. Made 'BuildVer' and 'OSArch' required parameters added value validation, and removed default values
 		TO DO -
 		Add functions for:
 		Add Logging
@@ -85,26 +88,30 @@
 param
 (
 	[Parameter(ParameterSetName = 'AddOptions',
-			   ValueFromPipeline = $true,
-			   ValueFromPipelineByPropertyName = $true)]
-	[ValidateSet('AddWinOpt', 'AddNetFX3', 'RemAppx', 'RemWinOpt', 'RemWinPkg', 'RemWinCap')]
+	           Mandatory = $false,
+	           ValueFromPipeline = $true,
+	           ValueFromPipelineByPropertyName = $true)]
 	[ValidateCount(1, 6)]
-	[array]$CustomOptions
-	[Parameter(Mandatory = $false)]
+	[ValidateSet('AddWinOpt', 'AddNetFX3', 'RemAppx', 'RemWinOpt', 'RemWinPkg', 'RemWinCap')]
+	[array]
+	$CustomOptions,
+	[Parameter(Mandatory = $true)]
 	[ValidateSet('1507', '1511', '1607', '1703', '1709', '1803', '1809')]
-	[string]$BuildVer = "1803",
-	[Parameter(Mandatory = $false)]
+	[string]
+	$BuildVer,
+	[Parameter(Mandatory = $true)]
 	[ValidateSet('x86', 'x64')]
-	[string]$OSArch = "x64",
+	[string]
+	$OSArch,
 	[Parameter(Mandatory = $false)]
-	[string]$SiteCode,
+	[string]
+	$SiteCode,
 	[Parameter(Mandatory = $false)]
-	[string]$ImageBuildName = "Win10-x64-1803",
+	[string]
+	$ImageBuildName = "Win10-x64-1803",
 	[Parameter(Mandatory = $false)]
-	[switch]$SaveNewISO,
-	[Parameter(Mandatory = $false)]
-	[ValidateSet('FXOnly', 'NoFX', 'FXPlus')]
-	[string]$Customize
+	[switch]
+	$SaveNewISO
 )
 
 # **************************************************************
@@ -332,7 +339,7 @@ Get-OSBuilderUpdates -UpdateCatalogs -FilterOS 'Windows 10' -FilterOSArch $OSArc
 # Import the OS Media by name, apply patches and fixes, skip showing the gridview (can take up to 2 hours)
 Import-OSMedia -ImageName "Windows 10 Enterprise" -UpdateOSMedia -SkipGridView
 
-##################################################################
+# If 'CustomOptions' are specified at the command-line, create the Build Task
 If ($CustomOptions)
 {
 	$CustomActions = Get-CustomOptions $CustomOptions
@@ -348,7 +355,6 @@ If ($CustomOptions)
 		New-OSBuildTask -TaskName "Customizations" -BuildName "$($ImageBuildName)" $CustomActions -Verbose
 	}
 }
-##################################################################
 
 # Build the Image and install updates
 New-OSBuild -DownloadUpdates -Execute
