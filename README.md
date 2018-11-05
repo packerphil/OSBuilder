@@ -19,7 +19,7 @@ Wrapper script used to run OSBuilder module v10.10.26.0 (from David Segura) comm
 build Windows 10 installation media that is patched and has only the apps and features desired.<br/><br/>
 <b><i>NOTE:</b> Only works with Windows 10 Enterprise at this time.</i><br/><br/>
 <a href="https://github.com/packerphil/OSBuilder/blob/Script-1/Script%20Files/Run-OSBuilder_v1.x.x_Readme.md">Usage information and examples can be found here.</a><br/><br/>
-a href="https://youtu.be/t_OJIEbvdwo">Video demo of 'Run-OSBuilder' script can be found here.</a><br/><br/>
+<a href="https://youtu.be/t_OJIEbvdwo">Video demo of 'Run-OSBuilder' script can be found here.</a><br/><br/>
 
 --------------------------------------------------------------
 <br/>
