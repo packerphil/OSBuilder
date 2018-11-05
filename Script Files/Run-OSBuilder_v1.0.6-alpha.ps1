@@ -84,12 +84,12 @@
 #>
 param
 (
-	[Parameter(Mandatory = $false)]
-	[switch]$Customize,
-	[Parameter(Mandatory = $false)]
-	[switch]$CustomizeFX,
-	[Parameter(Mandatory = $false)]
-	[switch]$EnableNETFX,
+	[Parameter(ParameterSetName = 'AddOptions',
+			   ValueFromPipeline = $true,
+			   ValueFromPipelineByPropertyName = $true)]
+	[ValidateSet('AddWinOpt', 'AddNetFX3', 'RemAppx', 'RemWinOpt', 'RemWinPkg', 'RemWinCap')]
+	[ValidateCount(1, 6)]
+	[array]$CustomOptions
 	[Parameter(Mandatory = $false)]
 	[ValidateSet('1507', '1511', '1607', '1703', '1709', '1803', '1809')]
 	[string]$BuildVer = "1803",
@@ -203,6 +203,27 @@ Function Set-BuildISOPath
 	$SaveFileDialog.Dispose()
 	return $SavePath
 }
+
+# Function to parse array of customization options specified by the 'CustomOptions' parameter
+Function Get-CustomOptions ($CustomOptions)
+{
+	$arraylist = New-Object System.Collections.Arraylist
+	foreach ($Custom in $CustomOptions)
+	{
+		switch ($Custom)
+		{
+			RemAppx		{ $CParam = "-RemoveAppxProvisionedPackage" }
+			AddWinOpt	{ $CParam = "-EnableWindowsOptionalFeature" }
+			RemWinOpt	{ $CParam = "-DisableWindowsOptionalFeature" }
+			RemWinPkg	{ $CParam = "-RemoveWindowsPackage" }
+			RemWinCap	{ $CParam = "-RemoveWindowsCapability" }
+			AddNetFX3	{ $CParam = "-EnableNetFX3" }
+		}
+		$results = $arraylist.Add($CParam)
+	}
+	$CustomActions = $arraylist -join " "
+	return $CustomActions
+}
 # **************************************************************
 # END - Load functions into memory for use within the script
 # **************************************************************
@@ -312,32 +333,19 @@ Get-OSBuilderUpdates -UpdateCatalogs -FilterOS 'Windows 10' -FilterOSArch $OSArc
 Import-OSMedia -ImageName "Windows 10 Enterprise" -UpdateOSMedia -SkipGridView
 
 ##################################################################
-Switch ($Customize)
+If ($CustomOptions)
 {
-	#If selected, enable .NET 3.5 ONLY
-	FXOnly	{
-		New-OSBuildTask -TaskName "EnableNETFX" -BuildName "$($ImageBuildName)" -EnableNetFX3
+	$CustomActions = Get-CustomOptions $CustomOptions
+	
+	If ($SiteCode)
+	{
+		# Run the 'New-OSBuildTask' powershell command with ConfigMgr SiteCode in 'TaskName'
+		New-OSBuildTask -TaskName "$($SiteCode)-Customizations" -BuildName "$($ImageBuildName)" $CustomActions -Verbose
 	}
-	# If selected, run ALL Customizations selections EXCEPT NETFX
-	NoFX	{
-		New-OSBuildTask -TaskName "Customizations" -BuildName "$($ImageBuildName)" `
-						-RemoveAppxProvisionedPackage `
-						-EnableWindowsOptionalFeature `
-						-DisableWindowsOptionalFeature `
-						-RemoveWindowsPackage `
-						-RemoveWindowsCapability `
-						-Verbose
-	}
-	# If selected, run Customizations selections, and enable .Net 3.5
-	FXPlus		{
-		New-OSBuildTask -TaskName "CustomizationsFX" -BuildName "$($ImageBuildName)" `
-						-RemoveAppxProvisionedPackage `
-						-EnableWindowsOptionalFeature `
-						-DisableWindowsOptionalFeature `
-						-RemoveWindowsPackage `
-						-RemoveWindowsCapability `
-						-EnableNetFX3 `
-						-Verbose
+	Else
+	{
+		# Run the 'New-OSBuildTask' powershell command
+		New-OSBuildTask -TaskName "Customizations" -BuildName "$($ImageBuildName)" $CustomActions -Verbose
 	}
 }
 ##################################################################
