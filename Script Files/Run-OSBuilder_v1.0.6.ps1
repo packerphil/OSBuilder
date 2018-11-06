@@ -233,6 +233,32 @@ Function Get-CustomOptions ($CustomOptions)
 	$CustomActions = $arraylist -join " "
 	return $CustomActions
 }
+
+# Function used to verify the 'NuGet' Package Provider version '2.8.5.201' or greater is installed
+Function Get-NuGetProvider{
+
+    $PkgProviders = (Get-PackageProvider -ListAvailable).Name
+    If ($PkgProviders -contains "NuGet"){
+        $NuGet = Get-PackageProvider -Name NuGet -ErrorAction SilentlyContinue | Select *
+        If (-not($NuGet.Version -ge "2.8.5.201")){
+            Write-Host "ERROR: 'NuGet' provider version '2.8.5.201' or higher is NOT INSTALLED." -ForegroundColor Red -BackgroundColor White
+            Write-Host "   Please wait while 'NuGet' provider is updated..." -ForegroundColor Yellow
+            $InstNuGet = Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Confirm:$false -Force
+            Get-NuGetProvider
+        }
+        Else{
+            Write-Host "      NuGet provider is up to date. Current installed version is '$($NuGet.Version)'." -ForegroundColor Green
+        }
+    }
+
+    If (-not($PkgProviders -contains "NuGet")){
+        Write-Host "ERROR: 'NuGet' provider is NOT INSTALLED." -ForegroundColor Red -BackgroundColor White
+        Write-Host "   Please wait while 'NuGet' provider is installed..." -ForegroundColor Yellow
+        $InstNuGet = Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Confirm:$false -Force
+        Get-NuGetProvider
+    }
+
+}
 # **************************************************************
 # END - Load functions into memory for use within the script
 # **************************************************************
@@ -249,16 +275,8 @@ Else
 	Mount-DiskImage -ImagePath $ISOPath -Verbose -ErrorAction Stop
 }
 
-# Verify NuGet Provider version is 2.8.5.201 or greater
-$NuGet = Get-PackageProvider -Name NuGet -ErrorAction SilentlyContinue | Select *
-If ((-not ($NuGet)) -or ($NuGet.Version -lt "2.8.5.201"))
-{
-	Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Confirm:$false -Force
-}
-Else
-{
-	Write-Host "   NuGet provider is up to date. Current installed version is '$($NuGet.Version)'." -ForegroundColor Green
-}
+# Call function to verify NuGet Provider version is 2.8.5.201 or greater is installed
+Get-NuGetProvider
 
 # Check if OSBuilder Module is installed
 $ModuleName = "OSBuilder"
