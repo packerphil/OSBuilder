@@ -8,7 +8,7 @@
   --------------------------------------------------------------
   <br/>
   <b>Current Stable Script File:</b><br/>
-  <a href="https://github.com/packerphil/OSBuilder/blob/Script-1/Script%20Files/Run-OSBuilder_v1.0.6.ps1"><i>Run-OSBuilder_v1.0.6.ps1</i></a> - Created by <a href="https://twitter.com/PhilPritchett">Phil Pritchett</a><br/>
+  <a href="https://github.com/packerphil/OSBuilder/blob/Script-1/Script%20Files/Run-OSBuilder_v1.0.6.ps1"><i>Run-OSBuilder_v1.0.6.ps1</i></a> - Created by <a href="https://twitter.com/PhilPritchett">Phil Pritchett</a> (special thanks to <a href="https://twitter.com/skatterbrainzz">@skatterbrainzz</a> for his assistance)<br/>
   <br/>
   <b>Previous Version Script Files:</b><br/>
   <i>Run-OSBuilder_v1.0.3.ps1</i> - Created by <a href="https://twitter.com/PhilPritchett">Phil Pritchett</a><br/>
