@@ -68,7 +68,7 @@
 		1.0.3 - PHP - 10/29/2018 - Changed from 'beta' to full stable version after testing.
 		1.0.4 - PHP - 10/30/2018 - Added setting for SCCM Site Code to name the new ISO file, added Save dialog for saving the ISO to network or local folder.
 		1.0.5 - PHP - 10/31/2018 - Brought all functions to top of script, formatted script, updated parameter descriptions/ defaults, added script breaks if folder or file browse dialogs are cancelled
-		1.0.6 - PHP - 11/05/2018 - Consolidated customization variables into a single array parameter/variable('CustomOptions) with validation and a function call. Made 'BuildVer' and 'OSArch' required parameters added value validation, and removed default values
+		1.0.6 - PHP - 11/05/2018 - Consolidated customization variables into a single array parameter/variable('CustomOptions) with validation and a function call. Made 'BuildVer' and 'OSArch' required parameters added value validation, and removed default values. Made installation of 'NuGet' provider silent.
 		TO DO -
 		Add functions for:
 		Add Logging
@@ -85,6 +85,7 @@
 		Copy the ISO to the library
 		Create SCCM Right-Click Installer for script operation/ run
 #>
+[CmdletBinding(supportsshouldprocess=$true)]
 param
 (
 	[Parameter(ParameterSetName = 'AddOptions',
@@ -214,17 +215,18 @@ Function Set-BuildISOPath
 # Function to parse array of customization options specified by the 'CustomOptions' parameter
 Function Get-CustomOptions ($CustomOptions)
 {
+	$Customs = $CustomOptions -split ","
 	$arraylist = New-Object System.Collections.Arraylist
 	foreach ($Custom in $CustomOptions)
 	{
 		switch ($Custom)
 		{
-			RemAppx		{ $CParam = "-RemoveAppxProvisionedPackage" }
-			AddWinOpt	{ $CParam = "-EnableWindowsOptionalFeature" }
-			RemWinOpt	{ $CParam = "-DisableWindowsOptionalFeature" }
-			RemWinPkg	{ $CParam = "-RemoveWindowsPackage" }
-			RemWinCap	{ $CParam = "-RemoveWindowsCapability" }
-			AddNetFX3	{ $CParam = "-EnableNetFX3" }
+			'RemAppx'	{ $CParam = "-RemoveAppxProvisionedPackage" ; break}
+			'AddWinOpt'	{ $CParam = "-EnableWindowsOptionalFeature" ; break}
+			'RemWinOpt'	{ $CParam = "-DisableWindowsOptionalFeature" ; break}
+			'RemWinPkg'	{ $CParam = "-RemoveWindowsPackage" ; break}
+			'RemWinCap'	{ $CParam = "-RemoveWindowsCapability" ; break}
+			'AddNetFX3'	{ $CParam = "-EnableNetFX3" ; break}
 		}
 		$results = $arraylist.Add($CParam)
 	}
@@ -251,7 +253,7 @@ Else
 $NuGet = Get-PackageProvider -Name NuGet -ErrorAction SilentlyContinue | Select *
 If ((-not ($NuGet)) -or ($NuGet.Version -lt "2.8.5.201"))
 {
-	Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+	Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Confirm:$false -Force
 }
 Else
 {
@@ -343,17 +345,18 @@ Import-OSMedia -ImageName "Windows 10 Enterprise" -UpdateOSMedia -SkipGridView
 If ($CustomOptions)
 {
 	$CustomActions = Get-CustomOptions $CustomOptions
-	
+	Write-Verbose $CustomActions
 	If ($SiteCode)
 	{
 		# Run the 'New-OSBuildTask' powershell command with ConfigMgr SiteCode in 'TaskName'
-		New-OSBuildTask -TaskName "$($SiteCode)-Customizations" -BuildName "$($ImageBuildName)" $CustomActions -Verbose
+		$Command = "New-OSBuildTask -TaskName `"$($SiteCode)-Customizations`" -BuildName $ImageBuildName $CustomActions"
 	}
 	Else
 	{
 		# Run the 'New-OSBuildTask' powershell command
-		New-OSBuildTask -TaskName "Customizations" -BuildName "$($ImageBuildName)" $CustomActions -Verbose
+		$Command = "New-OSBuildTask -TaskName `"Customizations`" -BuildName $ImageBuildName $CustomActions"
 	}
+	Invoke-Expression $Command
 }
 
 # Build the Image and install updates
